@@ -7,7 +7,10 @@ import json
 
 from threading import Thread
 
+
+
 BASE_DIR = pathlib.Path()
+
 
 class MainServer(BaseHTTPRequestHandler):
 
@@ -73,7 +76,8 @@ class MainServer(BaseHTTPRequestHandler):
             print(f'received message: {data}')
 
         client_socket.close()
-        
+
+    
     def save_data_to_json(self, data):
         data_parse = urllib.parse.unquote_plus(data.decode())
         data_parse = {key: value for key, value in [el.split('=') for el in data_parse.split('&')]}
@@ -97,14 +101,14 @@ def server_socket():
 
         if not data:
             break
-        print(f'received message: {data}')
+            
     conn.close()
+
 
 def run(server_class=HTTPServer, handler_class=MainServer):
     server_address = ('', 3000)
     http = server_class(server_address, handler_class)
     try:
-        print('Start runing')
         server = Thread(target=server_socket)
         server.start()
         http.serve_forever()
